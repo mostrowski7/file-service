@@ -1,5 +1,5 @@
 {
-  "name": "file-service",
+  "name": "files-service",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -24,6 +24,8 @@
     "documentation": "npx @compodoc/compodoc -p tsconfig.json --serve"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.282.0",
+    "@aws-sdk/s3-request-presigner": "^3.282.0",
     "@nestjs/axios": "^2.0.0",
     "@nestjs/common": "^9.3.2",
     "@nestjs/config": "^2.3.0",
@@ -39,6 +41,7 @@
     "cookie-parser": "^1.4.6",
     "helmet": "^6.0.1",
     "knex": "^2.3.0",
+    "mime-types": "^2.1.35",
     "passport-jwt": "^4.0.1",
     "pg": "^8.8.0",
     "reflect-metadata": "^0.1.13",
@@ -55,6 +58,7 @@
     "@types/cookie-parser": "^1.4.3",
     "@types/express": "^4.17.13",
     "@types/jest": "27.4.1",
+    "@types/mime-types": "^2.1.1",
     "@types/node": "^16.0.0",
     "@types/passport-jwt": "^3.0.8",
     "@types/pg": "^8.6.5",

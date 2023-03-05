@@ -43,6 +43,21 @@ class EnvironmentVariables {
 
   @IsNumber()
   MAX_RSS_MEMORY_SIZE: number;
+
+  @IsString()
+  AWS_ACCESS_KEY_ID: string;
+
+  @IsString()
+  AWS_SECRET_ACCESS_KEY: string;
+
+  @IsString()
+  AWS_REGION: string;
+
+  @IsString()
+  AWS_BUCKET_NAME: string;
+
+  @IsNumber()
+  AWS_PRESIGNED_URL_EXPIRATION_TIME: number;
 }
 
 export function validate(config: Record<string, unknown>) {

@@ -1,5 +1,14 @@
-import { Query, Controller, Get, UseGuards, Req } from '@nestjs/common';
+import {
+  Controller,
+  UseGuards,
+  Query,
+  Get,
+  Req,
+  Post,
+  Body,
+} from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { CreateFileDto } from './dto/create-file.dto';
 import { GetPresignedUrlDto } from './dto/get-presigned-url.dto';
 import { RequestWithUser } from './files.interface';
 import { FilesService } from './files.service';
@@ -14,7 +23,16 @@ export class FilesController {
     @Req() req: RequestWithUser,
     @Query() getPresignedUrlDto: GetPresignedUrlDto,
   ) {
-    const { userId } = req.user;
-    return await this.filesService.getPresignedUrl(getPresignedUrlDto, userId);
+    const { id } = req.user;
+    return await this.filesService.getPresignedUrl(getPresignedUrlDto, id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post()
+  async create(
+    @Req() req: RequestWithUser,
+    @Body() createFileDto: CreateFileDto,
+  ) {
+    return await this.filesService.create(createFileDto, req.user);
   }
 }

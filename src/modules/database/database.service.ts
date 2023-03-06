@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Pool } from 'pg';
+import { Pool, PoolClient } from 'pg';
 import { CONNECTION_POOL } from './database.module-definition';
 
 @Injectable()
@@ -15,6 +15,10 @@ class DatabaseService {
    */
   getPool(): Pool {
     return this.pool;
+  }
+
+  async getClientPool(): Promise<PoolClient> {
+    return await this.getPool().connect();
   }
 
   /**

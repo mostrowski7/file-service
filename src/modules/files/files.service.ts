@@ -6,19 +6,26 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import { GetPresignedUrlDto } from './dto/get-presigned-url.dto';
 import { v4 as uuid } from 'uuid';
 import * as mime from 'mime-types';
+import { GetPresignedUrlDto } from './dto/get-presigned-url.dto';
+import { CreateFileDto } from './dto/create-file.dto';
+import { FilesRepository } from './files.repository';
+import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class FilesService {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly filesRepository: FilesRepository,
+  ) {}
 
   async getPresignedUrl(
     { filetype }: GetPresignedUrlDto,
     userId: string,
   ): Promise<{ url: string; key: string }> {
     const fileExtension = this.getFileExtension(filetype);
+
     try {
       const client = new S3Client({
         credentials: {
@@ -55,5 +62,9 @@ export class FilesService {
     if (!fileExtension) throw new BadRequestException('Missing file extension');
 
     return fileExtension;
+  }
+
+  async create(createFileDto: CreateFileDto, user: User): Promise<void> {
+    await this.filesRepository.createWithAssignedOwner(createFileDto, user);
   }
 }
